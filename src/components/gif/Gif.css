@@ -24,3 +24,14 @@
     color: white;
     padding: 5px;
 }
+
+.Gif-Single {
+    width: 100%;
+    height: 100%;
+    border: 1px solid white !important;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
+}

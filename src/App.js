@@ -6,13 +6,16 @@ import { GifsContextProvider } from './context/GifsContext';
 import GifDetail from 'components/detail/GifDetail';
 import TrendingSearches from 'components/trending/TrendingSearches';
 import SearchForm from 'components/searchForm/index';
+import useSEO from 'hooks/useSEO';
 import './App.css';
 
 function App() {
   const [path, pushLocation] = useLocation('');
 
+  useSEO({ title: 'Home', description: 'Description Home' })
+
   const handleSubmit = useCallback(({ keyword }) => {
-    pushLocation(`/git/${keyword}`)
+    pushLocation(`/gifs/${keyword}`)
   }, [pushLocation])
 
   return (
@@ -26,24 +29,28 @@ function App() {
         <section className="App-content">
           <SearchForm onSubmit={handleSubmit} />
           <h1>Giffy</h1>
-          <Link to='/git/random'>Gifs random</Link>
-          <Link to='/git/pandas'>Gifs pandas</Link>
-          <Link to='/git/mapaches'>Gifs mapaches</Link>
-          <Link to='/git/venezuela'>Gifs Venezuela</Link>
+          <Link to='/gifs/random'>Gifs random</Link>
+          <Link to='/gifs/pandas'>Gifs pandas</Link>
+          <Link to='/gifs/mapaches'>Gifs mapaches</Link>
+          <Link to='/gifs/venezuela'>Gifs Venezuela</Link>
           <br />
           <GifsContextProvider>
             <Route
               component={ListOfGifs}
-              path="/git/:keyword"
+              path="/gifs/:keyword"
             />
             <Route
               component={ListOfGifs}
               path="/"
             />
-            <Route
-              component={GifDetail}
-              path="/git/:id"
-            />
+            {
+              path.includes('/gif/') ?
+                <Route
+                  component={GifDetail}
+                  path="/gif/:id"
+                />
+              : <></>
+            }
           </GifsContextProvider>
         </section>
         <section className="App-content">

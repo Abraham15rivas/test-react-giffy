@@ -1,15 +1,17 @@
 import GifComponent from '../gif/Gif'
-import useGlobalGifs from 'hooks/useGlobalGifs'
+import useSingleGif from 'hooks/useSingleGif'
+import useSEO from 'hooks/useSEO'
 
 export default function Detail ({ params }) {
-    const gifs = useGlobalGifs()
+    const { gif, loading } = useSingleGif({ id: params['id'] })
+    const title = gif && gif.title ? gif.title : ''
+    useSEO({ title, description: `Description of ${title}` })
 
-    if (gifs.length) {
-        const gif = gifs.find(singleGif => singleGif.id === params.id)
-
-        if (gif) {
-            console.log(gif)
-            return <GifComponent { ...gif }  />
-        }
-    }
+    return (
+        <div>
+            {
+                loading ? <i>Cargando... ☯☯☯</i> : <GifComponent nameClass='Gif-Single' { ...gif } />
+            }
+        </div>
+    )
 }

@@ -4,6 +4,7 @@ import { useGifs } from 'hooks/useGifs'
 import Gif from '../gif/Gif'
 import useNearScreen from 'hooks/useNearScreen'
 import debounce from 'just-debounce-it'
+import useSEO from 'hooks/useSEO'
 import './ListOfGifs.css'
 
 export default function ListOfGifs ({ params }) {
@@ -15,6 +16,9 @@ export default function ListOfGifs ({ params }) {
         externalRef: loading ? null : externalRef,
         once: false
     })
+
+    const title = gifs ? `${gifs.length} gifs of ${keyword}` : ''
+    useSEO({ title, description: `Description of ${title}` })
 
     const debounceHandleNextPage = useCallback(
         debounce(() => setPage(prevPage => prevPage + 1), 1000)
