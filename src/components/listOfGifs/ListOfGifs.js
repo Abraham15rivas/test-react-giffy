@@ -4,7 +4,7 @@ import { useGifs } from 'hooks/useGifs'
 import Gif from '../gif/Gif'
 import useNearScreen from 'hooks/useNearScreen'
 import debounce from 'just-debounce-it'
-import useSEO from 'hooks/useSEO'
+import { Helmet } from 'react-helmet'
 import './ListOfGifs.css'
 
 export default function ListOfGifs ({ params }) {
@@ -18,7 +18,6 @@ export default function ListOfGifs ({ params }) {
     })
 
     const title = gifs ? `${gifs.length} gifs of ${keyword}` : ''
-    useSEO({ title, description: `Description of ${title}` })
 
     const debounceHandleNextPage = useCallback(
         debounce(() => setPage(prevPage => prevPage + 1), 1000)
@@ -34,6 +33,10 @@ export default function ListOfGifs ({ params }) {
             ? <i>Cargando... ☯☯☯</i>
             :
             <>
+                <Helmet>
+                    <title>{ title }</title>
+                    <meta name='description' content={ title } />
+                </Helmet>
                 <div className='ListOfGifs'>
                     {
                         gifs.map(({ id, title, url }) =>
