@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Link, Route, useLocation } from 'wouter';
 import ListOfGifs from 'components/listOfGifs/ListOfGifs';
 import StaticContext from 'context/StaticContext';
@@ -13,9 +13,8 @@ function App() {
   const [path, pushLocation] = useLocation('');
   const [title, setTitle] = useState('Home')
 
-  const handleSubmit = useCallback(({ keyword }) => {
-    pushLocation(`/gifs/${keyword}`)
-  }, [pushLocation])
+  const initialKeyword =  path.split('/')[2] ?? ''
+  const initialRating =  path.split('/')[3] ?? 'g'
 
   return (
     <StaticContext.Provider value={
@@ -30,7 +29,7 @@ function App() {
           <meta name='description' content={ title } />
         </Helmet>
         <section className="App-content">
-          <SearchForm onSubmit={handleSubmit} />
+          <SearchForm initialKeyword={initialKeyword} initialRating={initialRating} />
           <h1>Giffy</h1>
           <Link to='/gifs/random'>Gifs random</Link>
           <Link to='/gifs/pandas'>Gifs pandas</Link>
@@ -40,7 +39,11 @@ function App() {
           <GifsContextProvider>
             <Route
               component={ListOfGifs}
-              path="/gifs/:keyword"
+              path="/gifs/:keyword/:rating"
+            />
+            <Route
+              component={ListOfGifs}
+              path="/gifs/:keyword/"
             />
             <Route
               component={ListOfGifs}

@@ -8,8 +8,8 @@ import { Helmet } from 'react-helmet'
 import './ListOfGifs.css'
 
 export default function ListOfGifs ({ params }) {
-    const { keyword } = params
-    const  { loading, gifs, setPage } = useGifs({ keyword })
+    const { keyword, rating = 'g' } = params
+    const  { loading, gifs, setPage } = useGifs({ keyword, rating })
     const externalRef = useRef()
     const { isNearScreen } = useNearScreen({
         distance: '100px',
